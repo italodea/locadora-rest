@@ -1,4 +1,4 @@
-package br.ufrn.imd.Locadora.controllers;
+package br.ufrn.imd.Locadora.entity;
 
 import javax.persistence.Entity;
 
@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 //import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "carro")
 public class Carro {
     
     private @Id @GeneratedValue Long id;
@@ -41,6 +43,18 @@ public class Carro {
         return this.placa;
     }
 
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public void setPlaca(String placa){
+        this.placa = placa;
+    }
+
     @Override
     public boolean equals(Object o){
         if(this == o){
@@ -52,14 +66,11 @@ public class Carro {
 
         Carro carro = (Carro) o;
         return carro == o;
-        //return Object.equals(this.placa, carro.placa);
     }
 
     @Override
     public int hashCode(){
-        //Object o = new Object();
         return 1;
-        //return o.hash(this.placa);
     }
 
     @Override
