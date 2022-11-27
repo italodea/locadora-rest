@@ -1,9 +1,6 @@
 package br.ufrn.imd.Locadora.entity;
 
 import javax.persistence.Entity;
-
-
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,7 +8,8 @@ import javax.persistence.Table;
 @Table(name = "carro")
 public class Carro {
     
-    private @Id @GeneratedValue Long id;
+    @Id
+    private int id;
     private String placa;
     private String marca;
     private String modelo;
@@ -21,105 +19,96 @@ public class Carro {
     private Integer potencia;
     private String status;
     private Integer locatario;
+    private String categoriaCNH;
+    private Boolean ativo;
 
 
-    Carro(){}
-
-    Carro(String marca, String modelo, String placa){
-        this.marca = marca;
-        this.modelo = modelo;
-        this.placa = placa;
+    public Carro(){
     }
 
-
-    public Long getId(){
+    public int getId(){
         return this.id;
     }
-
     public String getMarca(){
         return this.marca;
     }
-
     public String getModelo(){
         return this.modelo;
     }
-
     public String getPlaca(){
         return this.placa;
     }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
-    public void setPlaca(String placa){
-        this.placa = placa;
-    }
-
     public String getCor() {
         return this.cor;
     }
-
-    public void setCor(String cor) {
-        this.cor = cor;
+    public String getCategoriaCNH(){
+        return this.categoriaCNH;
     }
-
     public String getCombustivel() {
         return this.combustivel;
     }
-
-    public void setCombustivel(String combustivel) {
-        this.combustivel = combustivel;
-    }
-
     public Float getDiaria() {
         return this.diaria;
     }
-
-    public void setDiaria(Float diaria) {
-        this.diaria = diaria;
-    }
-
     public Integer getPotencia() {
         return this.potencia;
     }
-
-    public void setPotencia(Integer potencia) {
-        this.potencia = potencia;
-    }
-
     public String getStatus() {
         return this.status;
     }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Integer getLocatario() {
         return this.locatario;
     }
+    public Boolean getAtivo(){
+        return this.ativo;
+    }
+    
 
+    public void setId(int id){
+        this.id = id;
+    }
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+    public void setPlaca(String placa){
+        this.placa = placa;
+    }
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+    public void setCombustivel(String combustivel) {
+        this.combustivel = combustivel;
+    }
+    public void setDiaria(Float diaria) {
+        this.diaria = diaria;
+    }
+    public void setPotencia(Integer potencia) {
+        this.potencia = potencia;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
     public void setLocatario(Integer locatario) {
         this.locatario = locatario;
+    }
+    public void setCategoriaCNH(String cnh){
+        this.categoriaCNH = cnh;
+    }
+    public void setAtivo(Boolean ativo){
+        this.ativo = ativo;
     }
 
 
     @Override
-    public boolean equals(Object o){
-        if(this == o){
-            return true;
-        }
-        if(!(o instanceof Carro)){
-            return false;
-        }
-
-        Carro carro = (Carro) o;
-        return carro == o;
+    public String toString(){
+        return "Car{"+
+            "id=" + this.id +
+            ",placa="+ this.placa +
+            ",marca="+ this.marca +
+            ",ativo="+ this.ativo
+        +"}";
     }
-
 }
