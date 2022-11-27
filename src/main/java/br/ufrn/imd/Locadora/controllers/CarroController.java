@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.ufrn.imd.Locadora.entity.Carro;
 import br.ufrn.imd.Locadora.service.CarroService;
 
+import java.util.List;
 @RestController
 public class CarroController {
 
@@ -24,5 +25,10 @@ public class CarroController {
     @RequestMapping(value = "createcar", method = RequestMethod.POST)
     public String createCar(@RequestBody Carro carro){
         return carroService.createCarro(carro);
+    }
+
+    @RequestMapping(value="viewcars", method = RequestMethod.GET)
+    public List<Carro> viewCars(){
+        return carroService.readCarros();
     }
 }

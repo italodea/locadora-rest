@@ -2,9 +2,7 @@ package br.ufrn.imd.Locadora.entity;
 
 import javax.persistence.Entity;
 
-//import java.util.Objects;
 
-//import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -14,9 +12,16 @@ import javax.persistence.Table;
 public class Carro {
     
     private @Id @GeneratedValue Long id;
+    private String placa;
     private String marca;
     private String modelo;
-    private String placa;
+    private String cor;
+    private String combustivel;
+    private Float diaria;
+    private Integer potencia;
+    private String status;
+    private Integer locatario;
+
 
     Carro(){}
 
@@ -55,6 +60,55 @@ public class Carro {
         this.placa = placa;
     }
 
+    public String getCor() {
+        return this.cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+
+    public String getCombustivel() {
+        return this.combustivel;
+    }
+
+    public void setCombustivel(String combustivel) {
+        this.combustivel = combustivel;
+    }
+
+    public Float getDiaria() {
+        return this.diaria;
+    }
+
+    public void setDiaria(Float diaria) {
+        this.diaria = diaria;
+    }
+
+    public Integer getPotencia() {
+        return this.potencia;
+    }
+
+    public void setPotencia(Integer potencia) {
+        this.potencia = potencia;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getLocatario() {
+        return this.locatario;
+    }
+
+    public void setLocatario(Integer locatario) {
+        this.locatario = locatario;
+    }
+
+
     @Override
     public boolean equals(Object o){
         if(this == o){
@@ -68,13 +122,4 @@ public class Carro {
         return carro == o;
     }
 
-    @Override
-    public int hashCode(){
-        return 1;
-    }
-
-    @Override
-    public String toString() {
-        return "Carro{" + "id=" + this.id + ", Marca='" + this.marca + '\'' + ", Modelo='" + this.modelo + '\'' +", Placa='" + this.placa + "'}";
-    }
 }

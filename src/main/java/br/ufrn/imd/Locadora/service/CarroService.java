@@ -32,6 +32,17 @@ public class CarroService {
     public String updateCarro(Carro carro) {
         if(carroRepository.existsByPlaca(carro.getPlaca())){
             try {
+                Carro updatedCarro = carroRepository.findByPlaca(carro.getPlaca()).map(
+                    Carro -> {
+                        carro.setCor(carro.getCor());
+                        carro.setCategoriaCNH(carro.categoriaCNH());
+                        carro.setDiaria(carro.getDiaria());
+                        carro.setStatus(carro.getStatus());
+                        carro.setPotencia(carro.getPotencia());
+                        carro.setLocatario(carro.getLocatario());
+                        return CarroRepository.save(carro);
+                    }
+                );
                 List<Carro> carros = carroRepository.findByPlaca(carro.getPlaca());
                 // carro.stream().forEach(c -> {
                 //     Carro carroToBeUpdate = carroRepository.findById(c.getId()).get();
