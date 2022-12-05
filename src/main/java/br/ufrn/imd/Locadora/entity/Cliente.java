@@ -1,6 +1,5 @@
 package br.ufrn.imd.Locadora.entity;
 
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -61,16 +60,7 @@ public class Cliente {
     public String getEmail() {
         return this.email;
     }
-    public Date getNascimentoDateFormat() {
-        return new Date();
-    }
     public String getNascimento() {
-        return this.nascimento;
-    }
-    public String getNascimentoDMY() {
-        return this.nascimento;
-    }
-    public String getNascimentoYMD() {
         return this.nascimento;
     }
     public boolean getAtivo(){

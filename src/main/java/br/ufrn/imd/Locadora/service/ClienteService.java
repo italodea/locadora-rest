@@ -27,12 +27,11 @@ public class ClienteService {
                 cliente.setId(null == clienteRepository.findMaxId() ? 0 : clienteRepository.findMaxId() + 1);
                 cliente.setAtivo(true);
                 clienteRepository.save(cliente);
-                String response = "{'error':false, 'info': 'new cliente registred successfully!','id': "
-                        + cliente.getId() + "}";
+                String response = "Novo cliente cadastrado com sucesso";
                 response = response.replaceAll("'", String.valueOf('"'));
                 return response;
             } else {
-                String response = "{'error':true, 'info': 'another cliente with same cpf was found!'}";
+                String response = "Já existe outro cliente cadastrado usando este CPF";
                 response = response.replaceAll("'", String.valueOf('"'));
 
                 return response;
@@ -57,24 +56,24 @@ public class ClienteService {
                 Cliente cliente_e = clienteRepository.findById(id).get();
                 int run = 0;
                 if(cliente.get("email") != null){
-                    run++;
                     cliente_e.setEmail(cliente.get("email").getAsString());
+                    run++;
                 }
                 if(cliente.get("categoriaCNH") != null){
-                    run++;
                     cliente_e.setCategoriaCNH(cliente.get("categoriaCNH").getAsString());
+                    run++;
                 }
                 if(run > 0){
                     clienteRepository.save(cliente_e);
-                    return "cliente was updated";
+                    return "Dados do cliente foram atualizados";
                 }else{
-                    return "nothing to update";
+                    return "Nada para atualizar";
                 }
             } catch (Exception e) {
                 throw e;
             }
         }
-        return "cliente not found";
+        return "Cliente não encontrado";
     }
 
     @Transactional
@@ -85,15 +84,15 @@ public class ClienteService {
                 if(cliente_d.getAtivo() == true){
                     cliente_d.setAtivo(false);
                     clienteRepository.save(cliente_d);
-                    return "cliente record deleted successfully.";
+                    return "Cliente foi desabilitado com sucesso.";
                 }else{
-                    return "client already disabled";
+                    return "Este cliente já está desabilitado";
                 }
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "Cliente does not exist";
+            return "Cliente não encontrado";
         }
     }
 }

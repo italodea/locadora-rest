@@ -14,7 +14,6 @@ import br.ufrn.imd.Locadora.entity.Carro;
 import br.ufrn.imd.Locadora.service.CarroService;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @RestController
@@ -37,16 +36,6 @@ public class CarroController {
     @RequestMapping(value="search/{placa}", method=RequestMethod.GET)
     public List<Carro> listCarsByPlaca(@PathVariable String placa) {
         return carroService.listCarsByPlaca(placa);
-    }
-
-    @RequestMapping(value="locate/{id}", method=RequestMethod.POST)
-    public @ResponseBody String requestMethodName(@PathVariable int id, @RequestBody String carro) {
-        try {
-            JsonObject carrojson = new JsonParser().parse(carro).getAsJsonObject();
-            return carroService.locateCar(id,carrojson);
-        } catch (Exception e) {
-            return "erro";
-        }
     }
     
     @RequestMapping(value="edit/{id}", method=RequestMethod.PUT)

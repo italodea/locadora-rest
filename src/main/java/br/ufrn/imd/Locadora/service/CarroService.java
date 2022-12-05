@@ -28,12 +28,11 @@ public class CarroService {
                 carro.setLocatario(0);
                 carro.setAtivo(true);
                 carroRepository.save(carro);
-                String response = "{'error':false, 'info': 'new car registred successfully!','id': " + carro.getId()
-                        + "}";
+                String response = "Novo carro cadastrado com sucesso";
                 response = response.replaceAll("'", String.valueOf('"'));
                 return response;
             } else {
-                String response = "{'error':true, 'info': 'another car with same plate was found!'}";
+                String response = "Já existe outro carro com essa mesma placa";
                 response = response.replaceAll("'", String.valueOf('"'));
                 return response;
             }
@@ -67,35 +66,15 @@ public class CarroService {
                 }
                 if (run > 0) {
                     carroRepository.save(carro_e);
-                    return "car was updated";
+                    return "Dados do carro foram atualizados";
                 } else {
-                    return "nothing to update";
+                    return "Nada para atualizar";
                 }
             } catch (Exception e) {
                 throw e;
             }
         }
         return "car not found";
-    }
-
-    @Transactional
-    public String locateCar(int id, JsonObject json) {
-        try {
-            if (carroRepository.existsById(id)) {
-                Carro carro = carroRepository.findById(id).get();
-                if (carro.getStatus() == "Livre") {
-                    carro.setStatus("Alugado");
-                    carroRepository.save(carro);
-                } else {
-                    return "{\"error\":true,\"info\":\"this car is unavaliable\"}";
-                }
-                return "{\"error\":false,\"info\":\"car located with success\"}";
-            } else {
-                return "{\"error\":true,\"info\":\"car not found\"}";
-            }
-        } catch (Exception e) {
-            return e.getMessage();
-        }
     }
 
     @Transactional
@@ -107,15 +86,15 @@ public class CarroService {
                     carro_d.setStatus("Vendido");
                     carroRepository.save(carro_d);
                 } else {
-                    return "this car is currently busy or was sold";
+                    return "Este carro está ocupado ou já foi vendido";
                 }
-                return "car sold successfully.";
+                return "Carro vendido com sucesso.";
             } catch (Exception e) {
                 throw e;
             }
 
         } else {
-            return "this car does not exist";
+            return "Este carro não existe";
         }
     }
 }
