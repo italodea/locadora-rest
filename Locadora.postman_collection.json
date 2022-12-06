@@ -1,0 +1,427 @@
+{
+	"info": {
+		"_postman_id": "b9839720-9bfb-43b3-a25a-960ae5ed1318",
+		"name": "Locadora",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11440197"
+	},
+	"item": [
+		{
+			"name": "carros",
+			"item": [
+				{
+					"name": "add carro",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"marca\" : \"Honda\",\n    \"modelo\": \"Fit\",\n    \"placa\" : \"OVZ-1240\",\n    \"cor\" : \"branco\",\n    \"categoriaCNH\" : \"B\",\n    \"combustivel\": \"G\",\n    \"diaria\" : 50,\n    \"potencia\" : 70\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/car/create",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"car",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list carros",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/car/list",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"car",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit car",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"Livre\",\n    \"locatario\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/car/edit/1",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"car",
+								"edit",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search by placa",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/car/search/OVZ-1240",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"car",
+								"search",
+								"OVZ-1240"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete car",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/car/delete/1",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"car",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clientes",
+			"item": [
+				{
+					"name": "add cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cpf\": \"1234569\",\n    \"nome\": \"Italo teste\",\n    \"categoriaCNH\": \"AB\",\n    \"email\": \"italodeazevedo99@gmail.com\",\n    \"nascimento\": \"17/12/1999\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/cliente/create",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"cliente",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list all clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/cliente/list",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"cliente",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search cliente by cpf",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/cliente/search/1234569",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"cliente",
+								"search",
+								"1234569"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit cliente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"email@email.com\",\n    \"categoriaCNH\": \"A\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/cliente/edit/2",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"cliente",
+								"edit",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete cliente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/cliente/delete/2",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"cliente",
+								"delete",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Aluguel",
+			"item": [
+				{
+					"name": "Create aluguel",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"placa\" : \"OVZ-1239\",\n    \"cpf\": \"1234568\",\n    \"data_ini\": \"23/11/2022\",\n    \"data_fim\": \"17/12/2022\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/aluguel/create",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"aluguel",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list all alugueis",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/aluguel/list",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"aluguel",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list all alugueis by veiculo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/aluguel/search/carro/3",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"aluguel",
+								"search",
+								"carro",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list all alugueis by cliente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/aluguel/search/cliente/1",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"aluguel",
+								"search",
+								"cliente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update aluguel",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"total\": 2500\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/aluguel/update/4",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"aluguel",
+								"update",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete aluguel",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"total\": 2500\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/aluguel/delete/4",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"aluguel",
+								"delete",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "server",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}

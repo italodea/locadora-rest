@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 
 import br.ufrn.imd.Locadora.entity.Aluguel;
 import br.ufrn.imd.Locadora.entity.Carro;
+import br.ufrn.imd.Locadora.entity.Cliente;
 import br.ufrn.imd.Locadora.repositories.AluguelRepository;
 import br.ufrn.imd.Locadora.repositories.CarroRepository;
 import br.ufrn.imd.Locadora.repositories.ClienteRepository;
@@ -24,41 +25,61 @@ public class AluguelService {
 
     @Autowired
     AluguelRepository aluguelRepository;
+    @Autowired
     CarroRepository carroRepository;
+    @Autowired
     ClienteRepository clienteRepository;
 
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
     @Transactional
-    public String createAluguel(Aluguel aluguel) {
+    public String createAluguel(JsonObject json) {
         try {
-            if (!carroRepository.existsById(aluguel.getVeiculo_id())) {
-                if (!clienteRepository.existsById(aluguel.getLocatario_id())) {
-                    Carro carro = carroRepository.findById(aluguel.getVeiculo_id()).get();
-                    if (carro.getStatus() == "Livre") {
-                        Date data_ini = UtilsService.strToDate(aluguel.getdata_ini());
-                        Date data_fim = UtilsService.strToDate(aluguel.getdata_fim());
-                        if (data_ini.compareTo(data_fim) < 0) {
-                            df.setRoundingMode(RoundingMode.UP);
-                            aluguel.setId(aluguelRepository.findMaxId());
-                            aluguel.setTotal(UtilsService.roundValue(
-                                    carro.getDiaria() * UtilsService.getDateDiff(data_ini, data_fim, TimeUnit.DAYS)));
-                            aluguelRepository.save(aluguel);
-                            return "Novo aluguel criado";
+            if (json.get("placa") != null && json.get("cpf") != null && json.get("data_ini") != null
+                    && json.get("data_fim") != null) {
+                if (carroRepository.existsByPlaca(json.get("placa").getAsString())) {
+                    if (clienteRepository.existsByCpf(json.get("cpf").getAsString())) {
+                        Carro carro = carroRepository.findByPlaca(json.get("placa").getAsString()).get(0);
+                        Cliente cliente = clienteRepository.findByCpf(json.get("cpf").getAsString()).get(0);
+                        if (carro.getStatus().equals("Livre") && carro.getAtivo() == true) {
+                            if (cliente.getAtivo() == true) {
+                                Date data_ini = UtilsService.strToDate(json.get("data_ini").getAsString());
+                                Date data_fim = UtilsService.strToDate(json.get("data_fim").getAsString());
+                                
+                                if (data_ini.compareTo(data_fim) < 0) {
+                                    
+                                    df.setRoundingMode(RoundingMode.UP);
+                                    Aluguel aluguel = new Aluguel();
+                                    aluguel.setId(null == aluguelRepository.findMaxId() ? 1 : aluguelRepository.findMaxId() + 1);
+                                    aluguel.setLocatario_id(cliente.getId());
+                                    aluguel.setVeiculo_id(carro.getId());
+                                    aluguel.setdata_ini(json.get("data_ini").getAsString());
+                                    aluguel.setdata_fim(json.get("data_fim").getAsString());
+                                    aluguel.setTotal(UtilsService.roundValue(carro.getDiaria() * UtilsService.getDateDiff(data_ini, data_fim, TimeUnit.DAYS)));
+                                    carro.setStatus("Alugado");
+                                    aluguelRepository.save(aluguel);
+                                    carroRepository.save(carro);
+                                    return "Novo aluguel criado";
+                                } else {
+                                    return "Intervalo inválido";
+                                }
+                            }else{
+                                return "Impossível prosseguir, cliente desativado";
+                            }
                         } else {
-                            return "Intervalo inválido";
+                            return "Este carro não está disponível";
                         }
                     } else {
-                        return "Este carro não está disponível";
+                        return "Cliente não encontrado";
                     }
                 } else {
-                    return "Cliente não encontrado";
+                    return "Carro não encontrado";
                 }
             } else {
-                return "Carro não encontrado";
+                return "Verifique se todos os campos foram preechidos";
             }
         } catch (Exception e) {
-            return "erro";
+            return "erro" + e;
         }
     }
 
@@ -80,7 +101,8 @@ public class AluguelService {
                         return "Impossível utilizar a nova data de final";
                     }
                     df.setRoundingMode(RoundingMode.UP);
-                    aluguel2.setTotal(UtilsService.roundValue(carro.getDiaria() * UtilsService.getDateDiff(data_ini, data_fim, TimeUnit.DAYS)));
+                    aluguel2.setTotal(UtilsService.roundValue(
+                            carro.getDiaria() * UtilsService.getDateDiff(data_ini, data_fim, TimeUnit.DAYS)));
                     updates++;
                 }
                 if (updates > 0) {
@@ -103,7 +125,7 @@ public class AluguelService {
         return aluguelRepository.findAllByVeiculoId(veiculo_id);
     }
 
-    public List<Aluguel> listAlugueisByLoacatarioId(int locatario_id) {
+    public List<Aluguel> listAlugueisByClienteId(int locatario_id) {
         return aluguelRepository.findALlByLocatarioId(locatario_id);
     }
 
@@ -113,10 +135,14 @@ public class AluguelService {
             Aluguel aluguel = aluguelRepository.findById(id).get();
             if (carroRepository.existsById(aluguel.getVeiculo_id())) {
                 Carro carro = carroRepository.findById(aluguel.getVeiculo_id()).get();
-                carro.setStatus("Livre");
-                return "Aluguel encerrado com sucesso";
-            }else{
-                return "Este aluguel já estava finalizado";
+                if(!carro.getStatus().equals("Livre")){
+                    carro.setStatus("Livre");
+                    return "Aluguel encerrado com sucesso";
+                }else {
+                    return "Este aluguel já estava finalizado";
+                }
+            } else {
+                return "Este aluguel possuia um veículo não encontrado";
             }
         }
         return "Aluguel não encontrado";

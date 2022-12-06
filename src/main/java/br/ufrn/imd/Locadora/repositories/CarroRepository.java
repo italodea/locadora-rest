@@ -19,6 +19,6 @@ public interface CarroRepository extends JpaRepository<Carro, Integer>{
     public Integer findMaxId();
     
     @Override
-    @Query("SELECT c FROM Carro c WHERE c.status != 'Vendido'")
+    @Query("SELECT c FROM Carro c WHERE c.status != 'Vendido' and c.ativo = true")
     public List<Carro> findAll();
 }

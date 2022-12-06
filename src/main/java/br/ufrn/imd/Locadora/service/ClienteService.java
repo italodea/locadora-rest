@@ -24,7 +24,7 @@ public class ClienteService {
     public String createCliente(Cliente cliente) {
         try {
             if (!clienteRepository.existsByCpf(cliente.getCpf())) {
-                cliente.setId(null == clienteRepository.findMaxId() ? 0 : clienteRepository.findMaxId() + 1);
+                cliente.setId(null == clienteRepository.findMaxId() ? 1 : clienteRepository.findMaxId() + 1);
                 cliente.setAtivo(true);
                 clienteRepository.save(cliente);
                 String response = "Novo cliente cadastrado com sucesso";
@@ -54,6 +54,9 @@ public class ClienteService {
         if (clienteRepository.existsById(id)) {
             try {
                 Cliente cliente_e = clienteRepository.findById(id).get();
+                if(cliente_e.getAtivo() == false){
+                    return "Não é possível editar este cliente.";
+                }
                 int run = 0;
                 if(cliente.get("email") != null){
                     cliente_e.setEmail(cliente.get("email").getAsString());

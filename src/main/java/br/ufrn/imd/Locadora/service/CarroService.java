@@ -23,7 +23,7 @@ public class CarroService {
     public String createCar(Carro carro) {
         try {
             if (!carroRepository.existsByPlaca(carro.getPlaca())) {
-                carro.setId(null == carroRepository.findMaxId() ? 0 : carroRepository.findMaxId() + 1);
+                carro.setId(null == carroRepository.findMaxId() ? 1 : carroRepository.findMaxId() + 1);
                 carro.setStatus("Livre");
                 carro.setLocatario(0);
                 carro.setAtivo(true);
@@ -60,9 +60,13 @@ public class CarroService {
                     carro_e.setDiaria(carro.get("diaria").getAsFloat());
                 }
                 if (carro.get("status") != null && carro.get("locatario") != null) {
-                    run++;
-                    carro_e.setStatus(carro.get("status").getAsString());
-                    carro_e.setLocatario(carro.get("locatario").getAsInt());
+                    if(carro_e.getAtivo() == true){
+                        carro_e.setStatus(carro.get("status").getAsString());
+                        carro_e.setLocatario(carro.get("locatario").getAsInt());
+                        run++;
+                    }else{
+                        return "Este carro não está mais disponível";    
+                    }
                 }
                 if (run > 0) {
                     carroRepository.save(carro_e);
@@ -84,6 +88,7 @@ public class CarroService {
                 Carro carro_d = carroRepository.findById(id).get();
                 if (carro_d.getStatus().equals("Livre")) {
                     carro_d.setStatus("Vendido");
+                    carro_d.setAtivo(false);
                     carroRepository.save(carro_d);
                 } else {
                     return "Este carro está ocupado ou já foi vendido";
